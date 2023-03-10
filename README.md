@@ -1,12 +1,12 @@
-### BANK QUERY
+## BANK QUERY
 
-## HERE IS THE FIRS PROJECT FROM THE PAMSI SUBJECT SERIES
+### HERE IS THE FIRS PROJECT FROM THE PAMSI SUBJECT SERIES
 
-## MY GOALS
+### MY GOALS
 * Doubly Linked Lists 
-* include <thread>
+* include thread
 
-## HOW TO LAUNCH ??? Its simple
+### HOW TO LAUNCH ??? Its simple
 ``` bash
 > mkdir build && cd build
 > cmake .. #### options: -DCMAKE_BUILD_TYPE=[Debug | Coverage | Release], Debug is default
