@@ -2,12 +2,15 @@
 #include <iostream>
 #include <thread>
 
+
 #include "./inc/helpers/menu.hh"
+#include "./inc/d_linked_list.hh"
 
 int main() {
     char choise;
 
     Menu Menu;
+    DLinkedList* query = new DLinkedList();
 
     try {
         
@@ -18,7 +21,10 @@ int main() {
             switch(choise) {
                 case '1':
 
-                    std::cout << "* Hello World!!! *\n" << std::endl;
+                    bool isEmpty = query->isEmpty();
+                    std::cout << "\nisEmpty -> " << isEmpty << std::endl;
+
+                    
 
                 break;
 

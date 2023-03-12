@@ -4,12 +4,22 @@
 #include <iostream>
 // #include <cmath>
 
-typedef int Elem;       /* in plans, change it to class Tiket, which will keep data */
+#include "./tiket.hh"
+
 class DNode {           /* | <-- | * | data | * | --> */
+public:
+    DNode();
+
+    //# add Tiket() *tiket = adr to new tiket
+
 private:
-    Elem elem;      
+    Tiket* tiket;      
     DNode* prev;
     DNode* next;
 
     friend class DLinkedList;
 };
+
+DNode::DNode() {
+    std::cout << "Node Constr \n" << std::endl;
+}
