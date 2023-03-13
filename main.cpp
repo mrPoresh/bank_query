@@ -5,12 +5,15 @@
 
 #include "./inc/helpers/menu.hh"
 #include "./inc/d_linked_list.hh"
+#include "./inc/tiket.hh"
 
 int main() {
     char choise;
 
+    int exec, num;
+
     Menu Menu;
-    DLinkedList* query = new DLinkedList();
+    DLinkedList* Query = new DLinkedList();
 
     try {
         
@@ -21,10 +24,12 @@ int main() {
             switch(choise) {
                 case '1':
 
-                    bool isEmpty = query->isEmpty();
-                    std::cout << "\nisEmpty -> " << isEmpty << std::endl;
+                    std::cin >> exec >> num;
 
-                    
+                    Tiket* Target = new Tiket(exec, num);
+                    Query->addBack(Target);
+
+                    std::cout << "Is empty: " << Query->isEmpty() << "\n" << std::endl;              
 
                 break;
 

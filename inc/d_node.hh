@@ -6,6 +6,7 @@
 
 #include "./tiket.hh"
 
+template <typename Data>
 class DNode {           /* | <-- | * | data | * | --> */
 public:
     DNode();
@@ -13,13 +14,14 @@ public:
     //# add Tiket() *tiket = adr to new tiket
 
 private:
-    Tiket* tiket;      
+    Data* data = NULL;      
     DNode* prev;
     DNode* next;
 
     friend class DLinkedList;
 };
 
-DNode::DNode() {
-    std::cout << "Node Constr \n" << std::endl;
+template <typename Data>
+DNode<Data>::DNode() {
+    std::cout << "Node Constructor \n" << std::endl;
 }

@@ -6,11 +6,11 @@
 
 class Tiket {
 public: 
-    Tiket(const int execution, const int id);
+    Tiket(const int exec, const int num);
     ~Tiket();
 
-    int getExecTime();
-    int getId();
+    int getExecTime() const;
+    int getId() const;
 
 private:
     int execution;
@@ -18,7 +18,7 @@ private:
 };
 
 Tiket::Tiket(int exec, int num): execution(exec), id(num) {
-    std::cout << "Tiket Constr \n" << std::endl;
+    std::cout << "Tiket Constructor \n" << std::endl;
     std::cout << "id of created Tiket: " << num << " Execution Time: "<< exec << "\n" << std::endl;
 };
 
@@ -28,10 +28,10 @@ Tiket::~Tiket() {
     //delete &id;
 };
 
-int Tiket::getExecTime() {
+int Tiket::getExecTime() const {
     return execution;
 };
 
-int Tiket::getId() {
+int Tiket::getId() const {
     return id;
 };

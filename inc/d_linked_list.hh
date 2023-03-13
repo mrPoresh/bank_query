@@ -5,6 +5,7 @@
 // #include <cmath>
 
 #include "./d_node.hh"
+#include "./tiket.hh"
 
 class DLinkedList {
 public: 
@@ -13,41 +14,50 @@ public:
 
     bool isEmpty() const;
 
-    //const Elem& front() const;
-    //const Elem& back() const;
+    //const Tiket& front() const;
+    //const Tiket& back() const;
 
-    //void addFront(const Elem& e);
-    //void addBack(const Elem& e);
+    //void addFront(const Tiket& tiket);
+    void addBack(Tiket* tiket);
     //void removeFront();
     //void removeBack();
 
 protected:
-    //void addNode(DNode* v, const Elem& e);
+    void addNode(DNode<Tiket>* next, Tiket* tiket);
     //void remove(DNode* v);
 
 private:
-    DNode* header;
-    DNode* trailer;
+    DNode<Tiket>* header;
+    DNode<Tiket>* trailer;
 };
 
 DLinkedList::DLinkedList() {
-    std::cout << "List Constr \n" << std::endl;
-    header = NULL;
-    trailer = NULL;
+    std::cout << "List Constructor \n" << std::endl;
 
-    //header->next = trailer;
-    //trailer->prev = header;
+    header = new DNode<Tiket>();
+    trailer = new DNode<Tiket>();
 
-/*     std::cout << "List Constr \n" << std::endl;
-    header = new DNode(0, 1);
-    trailer = new DNode(1, 2);
-
-    header->next = trailer;
-    trailer->prev = header; */
+    header->prev = trailer;
+    trailer->next = header;
 };
 
 bool DLinkedList::isEmpty() const {
     return (header->next == trailer);
+};
+
+void DLinkedList::addBack(Tiket* tiket) {
+    addNode(trailer, tiket);
+};
+
+void DLinkedList::addNode(DNode<Tiket>* current_node, Tiket* tiket) {
+    DNode<Tiket>* new_node = new DNode<Tiket>; // new node for new tiket
+    new_node->data = tiket;                    // new tiket
+    current_node->next->prev = new_node;       // link new node between next and current
+    new_node->next = current_node->next;
+    current_node->next = new_node;
+    new_node->prev = current_node;
+
+    
 };
 
 DLinkedList::~DLinkedList() {
