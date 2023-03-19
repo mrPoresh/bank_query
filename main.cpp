@@ -10,12 +10,14 @@
 int main() {
     char choise;
 
-    int size, exec, num;
+    //int size, exec, num;
 
     Menu Menu;
-    //DLinkedList* Query = new DLinkedList();
+    TiketType Type;
 
-    DLinkedList* Query = NULL;
+    Queue* q = new Queue();
+
+    //DLinkedList* Query = NULL;
 
     try {
         
@@ -26,37 +28,21 @@ int main() {
             switch(choise) {
                 case '1':
 
-                    std::cin >> size;
-
-                    if (Query == NULL) {
-                        Query = new DLinkedList(size);
-                    } else {
-                        std::cout << "Query exist\n" << std::endl;
-                    }          
-
+                    q->addMember(Type = PAYMENT);
+        
                 break;
 
-                case '4':
+                case '2':
 
-                    if (Query != NULL) {    //// not correct 
-                        if (Query->isEmptyTrailer()) {
-                            std::cin >> exec >> num;
-                            Query->addTask(new Tiket(exec, num));
-                        } else {
-                            std::cout << "Query too busy\n" << std::endl;
-                        }
-
-                    } else {
-                        std::cout << "Query dont exist\n" << std::endl;
-                    }       
-
+                    q->sendMember();
+     
                 break;
 
             }
         }
 
     } catch(const std::runtime_error& e) {
-        std::cerr << "Something go wrong" << e.what() << '\n';
+        std::cerr << "Something go wrong -> " << e.what() << '\n';
         exit(1);
     }
 };

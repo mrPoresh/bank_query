@@ -7,60 +7,130 @@
 #include "./d_node.hh"
 #include "./tiket.hh"
 
+enum TiketType { PAYMENT = 4, CONSULTATION = 6, OPEN_ACC = 8, CLOSE_ACC = 10 };
 
-class DLinkedList {
+class Queue {
 public: 
-    DLinkedList(int size);
-    ~DLinkedList();
+    Queue();
+    ~Queue();
 
-    bool isEmptyTrailer() const;
+    bool isHead() const;
+    bool isTail() const;
 
-    void extendQuery();
-    void addTask(Tiket* task);
+    int getHeadId() const;
+    int getTailId() const;
+
+    void addMember(int exec);
+    void sendMember();
+
+    int id = 1;
 
 protected:
-    void addNode(DNode<Tiket>* current_node);
+    void createHead(int exec);
+    void createTail(int exec);
+
+    void addNode(int exec);
 
 private:
-    DNode<Tiket>* header;
-    DNode<Tiket>* trailer;
+    DNode<Tiket>* head = NULL;
+    DNode<Tiket>* tail = NULL;
 };
 
-DLinkedList::DLinkedList(int size) {
-    std::cout << "List Constructor \n" << std::endl;
-
-    header = new DNode<Tiket>();
-    trailer = new DNode<Tiket>();
-
-    header->prev = trailer;
-    trailer->next = header;
-
-    for(int i = 0; i < size - 2; i++) {
-        extendQuery();
-    };
+Queue::Queue() {
+    std::cout << "Queue Constructor \n" << std::endl;
 };
 
-bool DLinkedList::isEmptyTrailer() const {
-    return (trailer->isEmptyData());
+Queue::~Queue() {
+    std::cout << "Queue Destructor \n" << std::endl;
+    delete head;
+    delete tail;
+    delete &id;
 };
 
-void DLinkedList::addNode(DNode<Tiket>* current_node) {
-    DNode<Tiket>* new_node = new DNode<Tiket>; 
-    current_node->next->prev = new_node;       
-    new_node->next = current_node->next;
-    current_node->next = new_node;
-    new_node->prev = current_node;
+bool Queue::isHead() const {
+    return (head != NULL);
 };
 
-void DLinkedList::extendQuery() {
-    addNode(trailer);
+bool Queue::isTail() const {
+    return (tail != NULL);
 };
 
-void DLinkedList::addTask(Tiket* task) {
-    trailer->setTask(task);
+void Queue::createHead(int exec) {
+    std::cout << "Create Head \n" << std::endl;
+    head = new DNode<Tiket>(exec, id);
+    id++;
 };
 
-DLinkedList::~DLinkedList() {
-    delete header;
-    delete trailer;
+void Queue::createTail(int exec) {
+    std::cout << "Create Tail \n" << std::endl;
+    tail = new DNode<Tiket>(exec, id);
+    head->next = tail; tail->prev = head;
+    id++;
 };
+
+void Queue::addNode(int exec) {
+    std::cout << "Adding new Tiket \n" << std::endl;
+    DNode<Tiket>* new_tail = new DNode<Tiket>(exec, id);
+    tail->next = new_tail; new_tail->prev = tail;
+    tail = new_tail;
+    id++;
+};
+
+void Queue::addMember(int exec) {
+    if (isTail()) {
+        addNode(exec);
+    } else {
+        if (isHead()) {
+            createTail(exec);
+        } else {    
+            createHead(exec);
+        }
+    }
+};
+
+void Queue::sendMember() {
+    if (isHead()) {
+        if (head->next == tail && isTail()) {
+            std::cout << "Id of sended tiket: " << getHeadId() << "\n" << std::endl;
+            std::cout << "We are lost tail \n" << std::endl;
+
+            head = tail; head->prev = NULL; tail = NULL;
+
+            std::cout << "Total Bilet Amount: 1\n" << std::endl;
+
+        } else if (head->next == NULL) {
+            std::cout << "Id of sended tiket: " << getHeadId() << "\n" << std::endl;
+            std::cout << "We are lost last Member \n" << std::endl;
+
+            head = NULL;
+
+            std::cout << "Total Bilet Amount: 0\n" << std::endl;
+
+        } else {
+            std::cout << "Id of sended tiket: " << getHeadId() << "\n" << std::endl;
+            std::cout << "Sending Member \n" << std::endl;
+
+            head = head->next; head->prev->next = NULL; head->prev = NULL;
+
+            std::cout << "Total Bilet Amount: " << getTailId() - getHeadId() + 1 << "\n" << std::endl;  //
+        }
+    } else {
+        throw std::runtime_error("Head is not defined.");
+    }
+};
+
+int Queue::getHeadId() const {
+    if (isHead()) {
+        return head->data->getId();
+    } else {
+        throw std::runtime_error("Head is not defined.");
+    }
+}
+
+int Queue::getTailId() const {
+    if (isHead()) {
+        return tail->data->getId();
+    } else {
+        throw std::runtime_error("Head is not defined.");
+    }
+}
