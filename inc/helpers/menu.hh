@@ -11,8 +11,8 @@ class Menu {
 
         void menuDef() {
             std::cout << "\n*****          Main Menu           *****\n" << std::endl;
-            std::cout << "\n***** 1 - Add Tiket                *****\n" << std::endl;
-            std::cout << "\n***** 2 - Send Tiket               *****\n" << std::endl;
+            std::cout << "\n***** 1 - Start                    *****\n" << std::endl;
+            std::cout << "\n***** 0 - Exit                     *****\n" << std::endl;
             //std::cout << "\n***** 3 - Extend DLList from head  *****\n" << std::endl;
             //std::cout << "\n***** 4 - Add Tiket                *****\n" << std::endl;
             //std::cout << "\n***** 5 - Remove from front        *****\n" << std::endl;

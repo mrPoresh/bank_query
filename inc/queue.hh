@@ -2,38 +2,27 @@
 
 #include <stdlib.h>
 #include <iostream>
-// #include <cmath>
 
-#include "./d_node.hh"
+#include "./node.hh"
 #include "./tiket.hh"
-
-enum TiketType { PAYMENT = 4, CONSULTATION = 6, OPEN_ACC = 8, CLOSE_ACC = 10 };
 
 class Queue {
 public: 
     Queue();
     ~Queue();
 
-    bool isHead() const;
-    bool isTail() const;
-
-    int getHeadId() const;
-    int getTailId() const;
-
-    void addMember(int exec);
-    void sendMember();
-
     int id = 1;
 
-protected:
-    void createHead(int exec);
-    void createTail(int exec);
+    int a_operations = 0;
+    int r_operations = 0;
 
-    void addNode(int exec);
+    void addNode();
+    Node<Tiket<int>, int>* getNode();
+    bool isEmpty() const;
 
 private:
-    DNode<Tiket>* head = NULL;
-    DNode<Tiket>* tail = NULL;
+    Node<Tiket<int>, int>* head = NULL;
+    Node<Tiket<int>, int>* tail = NULL;
 };
 
 Queue::Queue() {
@@ -42,12 +31,49 @@ Queue::Queue() {
 
 Queue::~Queue() {
     std::cout << "Queue Destructor \n" << std::endl;
-    delete head;
-    delete tail;
-    delete &id;
+    /* delete head; ? */  
 };
 
-bool Queue::isHead() const {
+bool Queue::isEmpty() const {
+    return (head == NULL);
+}
+
+void Queue::addNode() {
+    Node<Tiket<int>, int>* node = new Node<Tiket<int>, int>(id);
+
+    if (isEmpty()) {
+        head = node; tail = node;
+    } else {
+        tail->next = node; node->prev = tail; tail = node;
+    };
+
+    id++; a_operations++;
+    std::cout << "Add operations " << a_operations << "\n" << std::endl;
+};
+
+Node<Tiket<int>, int>* Queue::getNode() {
+    if(!isEmpty()) {
+
+        Node<Tiket<int>, int>* node = head; r_operations++;
+
+        if (head == tail) {
+            head = NULL; tail = NULL;
+        } else {
+            head->next->prev = NULL; head = head->next;
+        }
+
+        std::cout << "Remove operations " << r_operations << "\n" << std::endl;
+
+        return node;
+
+    } else {
+        throw std::runtime_error("Head is not defined.");
+    }
+}
+
+
+
+/* bool Queue::isHead() const {
     return (head != NULL);
 };
 
@@ -110,7 +136,7 @@ void Queue::sendMember() {
             std::cout << "Id of sended tiket: " << getHeadId() << "\n" << std::endl;
             std::cout << "Sending Member \n" << std::endl;
 
-            head = head->next; head->prev->next = NULL; head->prev = NULL;
+            head = head->next; head->prev->next = NULL; head->prev = NULL;  // head->prev->~DNode()?
 
             std::cout << "Total Bilet Amount: " << getTailId() - getHeadId() + 1 << "\n" << std::endl;  //
         }
@@ -133,4 +159,4 @@ int Queue::getTailId() const {
     } else {
         throw std::runtime_error("Head is not defined.");
     }
-}
+} */

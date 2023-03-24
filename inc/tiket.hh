@@ -2,36 +2,24 @@
 
 #include <stdlib.h>
 #include <iostream>
-// #include <cmath>
 
+template <typename T>
 class Tiket {
 public: 
-    Tiket(int execution, int number);
+    Tiket(T _value);
     ~Tiket();
 
-    int getExecTime() const;
-    int getId() const;
+    int value;
 
-private:
-    int exec;
-    int id;
 };
 
-Tiket::Tiket(int execution, int number): exec(execution), id(number) {
-    std::cout << "Tiket Constructor \n" << std::endl;
-    std::cout << "id of created Tiket: " << id << " Execution Time: "<< exec << "\n" << std::endl;
+template <typename T>
+Tiket<T>::Tiket(T _value) {
+    value = _value;
+    std::cout << "Value of created Tiket: " << value << "\n" << std::endl;
 };
 
-Tiket::~Tiket() {
-    std::cout << "id of deleted Tiket: " << id << "\n" << std::endl;
-    delete &exec;
-    //delete &id;   wtf
-};
-
-int Tiket::getExecTime() const {
-    return exec;
-};
-
-int Tiket::getId() const {
-    return id;
+template <typename T>
+Tiket<T>::~Tiket() {
+    std::cout << "Value of deleted Tiket: " << value << "\n" << std::endl;  
 };
