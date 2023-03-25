@@ -26,8 +26,4 @@ private:
 template <typename T, typename E>
 Node<T, E>::~Node() {
     std::cout << "Node Destructor\n" << std::endl;
-    /* if (next != NULL) {  // ?
-        delete next;
-    } */
-
 };

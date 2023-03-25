@@ -31,14 +31,33 @@ int main() {
                         q->addNode();
                     }
 
+                    std::cout << "Size of q: " << q->q_size << "\n" << std::endl;
+
                     std::cout << "A - Automode " << "\n" << std::endl;
-                    std::cout << "M - Manual   " << "\n" << std::endl;
+                    std::cout << "S - Stream   " << "\n" << std::endl;
 
                     std::cin >> choise;
 
                     switch(choise) {
                         case 'A':
-                            std::cout << "Provide remove operation count " << "\n" << std::endl;
+                            std::cout << "Provide max remove operation count " << "\n" << std::endl;
+                            std::cin >> high;
+
+                            do {
+                                if ((std::rand() % 3 + 0) >= 2) {
+                                    q->addNode();
+                                }
+
+                                Node<Tiket<int>, int>* node = q->getNode();
+                                std::cout << "*** !Node getted! ***" << "\n" << std::endl;
+
+                            } while (!(q->isEmpty()) && !(high == q->r_operations));
+
+                            std::cout << "Size of q: " << q->q_size << "\n" << std::endl;
+                        break;
+
+                        case 'S':
+                            std::cout << "Provide max remove operation count " << "\n" << std::endl;
                             std::cin >> high;
 
                             do {
@@ -47,25 +66,12 @@ int main() {
                                 Node<Tiket<int>, int>* node = q->getNode();
                                 std::cout << "*** !Node getted! ***" << "\n" << std::endl;
 
-                                node->~Node();
+                            } while (!(q->isEmpty()) && !(high == q->r_operations));
 
-                            } while ((!(q->isEmpty()) || (high == q->a_operations)));
-                        break;
-
-                        case 'M':
-
+                            std::cout << "Size of q: " << q->q_size << "\n" << std::endl;
                         break;
                     }
         
-                break;
-
-                case '0':
-
-                    Node<Tiket<int>, int>* node = q->getNode();
-                    std::cout << "Geted Node " << "\n" << std::endl;
-
-                    node->~Node();
-     
                 break;
 
             }
