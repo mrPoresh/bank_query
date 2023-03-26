@@ -32,7 +32,10 @@ Queue::Queue() {
 
 Queue::~Queue() {
     std::cout << "Queue Destructor \n" << std::endl;
-    /* delete head; ? */  
+    while(head != NULL) {
+        delete head;
+        head = head->next;
+    }
 };
 
 bool Queue::isEmpty() const {
@@ -48,14 +51,14 @@ void Queue::addNode() {
         tail->next = node; node->prev = tail; tail = node;
     };
 
-    id++; a_operations++; q_size = q_size + sizeof(node);
-    std::cout << "Add operations " << a_operations << "\n" << std::endl;
+    id++; a_operations++; q_size = q_size + sizeof(&node);
+   // std::cout << "Add operations " << a_operations << "\n" << std::endl;
 };
 
 Node<Tiket<int>, int>* Queue::getNode() {
     if(!isEmpty()) {
 
-        Node<Tiket<int>, int>* node = head; r_operations++; q_size = q_size - sizeof(node);
+        Node<Tiket<int>, int>* node = head; r_operations++; q_size = q_size - sizeof(&node);
 
         if (head == tail) {
             head = NULL; tail = NULL;
@@ -63,7 +66,7 @@ Node<Tiket<int>, int>* Queue::getNode() {
             head->next->prev = NULL; head = head->next;
         }
 
-        std::cout << "Remove operations " << r_operations << "\n" << std::endl;
+        //std::cout << "Remove operations " << r_operations << "\n" << std::endl;
 
         return node;
 

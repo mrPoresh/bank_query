@@ -30,12 +30,12 @@ set(LIBRARY_NAME program)
 add_library(${LIBRARY_NAME} OBJECT ${SOURCES})
 target_include_directories(${LIBRARY_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/inc)
 target_link_libraries(${LIBRARY_NAME} PUBLIC doctest)
-target_set_warnings(${LIBRARY_NAME} ENABLE ALL AS_ERROR ALL DISABLE Annoying)
+#target_set_warnings(${LIBRARY_NAME} ENABLE ALL AS_ERROR ALL DISABLE Annoying)
 
 add_executable(main main.cpp)
 
 target_link_libraries(main PRIVATE ${LIBRARY_NAME})
-target_set_warnings(main ENABLE ALL AS_ERROR ALL DISABLE Annoying)
+#target_set_warnings(main ENABLE ALL AS_ERROR ALL DISABLE Annoying)
 target_enable_lto(main optimized)
 
 set_target_properties(

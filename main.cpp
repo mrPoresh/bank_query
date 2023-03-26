@@ -1,11 +1,37 @@
 #include <stdlib.h>
 #include <iostream>
 #include <thread>
+#include <cstdlib>
 
 
 #include "./inc/helpers/menu.hh"
 #include "./inc/queue.hh"
 #include "./inc/tiket.hh"
+
+size_t memoryUsage = 0;
+
+struct MemData
+{
+	size_t size;
+};
+
+void* operator new(size_t size)
+{
+    memoryUsage += size;
+    void* ptr = std::malloc(size + sizeof(MemData));
+    *reinterpret_cast<MemData*>(ptr) = MemData{ size };
+    ptr = reinterpret_cast<char*>(ptr) + sizeof(MemData);
+    if (!ptr) throw std::bad_alloc();
+    return ptr;
+}
+
+void operator delete(void* ptr) noexcept
+{
+    ptr = reinterpret_cast<char*>(ptr) - sizeof(MemData);
+	size_t size = reinterpret_cast<MemData*>(ptr)->size;
+	memoryUsage -= size;
+    std::free(ptr);
+}
 
 int main() {
     char choise;
@@ -14,11 +40,13 @@ int main() {
 
     Menu Menu;
 
-    Queue* q = new Queue();
-
     try {
         
         while(choise != '0') {
+            std::cout << "Memory Used in while " << memoryUsage << "\n" << std::endl;
+
+            Queue* q = new Queue();
+
             Menu.menuDef();
             std::cin >> choise;            
 
@@ -31,7 +59,7 @@ int main() {
                         q->addNode();
                     }
 
-                    std::cout << "Size of q: " << q->q_size << "\n" << std::endl;
+                    std::cout << "Memory Used After Q init " << memoryUsage << "\n" << std::endl;
 
                     std::cout << "A - Automode " << "\n" << std::endl;
                     std::cout << "S - Stream   " << "\n" << std::endl;
@@ -49,11 +77,12 @@ int main() {
                                 }
 
                                 Node<Tiket<int>, int>* node = q->getNode();
-                                std::cout << "*** !Node getted! ***" << "\n" << std::endl;
+
+                                delete node;
 
                             } while (!(q->isEmpty()) && !(high == q->r_operations));
 
-                            std::cout << "Size of q: " << q->q_size << "\n" << std::endl;
+                            std::cout << "Memory Used After get " << memoryUsage << "\n" << std::endl;
                         break;
 
                         case 'S':
@@ -64,17 +93,19 @@ int main() {
                                 q->addNode();
 
                                 Node<Tiket<int>, int>* node = q->getNode();
-                                std::cout << "*** !Node getted! ***" << "\n" << std::endl;
+
+                                delete node;
 
                             } while (!(q->isEmpty()) && !(high == q->r_operations));
 
-                            std::cout << "Size of q: " << q->q_size << "\n" << std::endl;
                         break;
+
                     }
         
                 break;
-
             }
+
+            delete q;
         }
 
     } catch(const std::runtime_error& e) {
